@@ -1,0 +1,11 @@
+.grid {
+  width: 100%;
+  height: 50px;
+}
+.ui-grid-row {
+  cursor: pointer;
+
+  &:hover .ui-grid-cell {
+    background-color: #CCC;
+  }
+}

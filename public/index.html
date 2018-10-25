@@ -2,23 +2,30 @@
 <head>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js'></script>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.js'></script>
-    <script src="app.js"></script>
+    <script src="js/taskManagerController.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
-<script src="//cdn.rawgit.com/angular-ui/bower-ui-grid/v3.0.6/ui-grid.min.js"></script>
-<link rel="stylesheet" href="//cdn.rawgit.com/angular-ui/bower-ui-grid/v3.0.6/ui-grid.min.css" type="text/css" />
-<link rel="stylesheet" href="main.css" type="text/css">
+    <script src="//cdn.rawgit.com/angular-ui/bower-ui-grid/v3.0.6/ui-grid.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
+     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+    <link rel="stylesheet" href="//cdn.rawgit.com/angular-ui/bower-ui-grid/v3.0.6/ui-grid.min.css" type="text/css" />
+     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styling/taskManager.css" type="text/css">
 </head>
-<body ng-app='consumeRestApp'>
+<body ng-app='taskManagerApp' style="    background: #e6e6e6!important;">
 
-
-  <div ng-controller="ctrl1">
-
-
-  <div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
-
+  <div ng-controller="taskManagerCtr">
+    <h1 >    Tasks    </h1>
+     <div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"
+      ui-grid-move-columns
+      ui-grid-resize-columns
+       ui-grid-pagination
+      ui-grid-selection
+      ui-grid-auto-resize
+      ui-grid-resize-columns
+      ui-grid-grouping
+      ></div>
   <!-- {{tasks}}aaa -->
-
   </div>
 
-  </body>
-  </html>
+</body>
+</html>
