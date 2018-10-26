@@ -20,9 +20,18 @@ app.service('getSubTasks',['$resource','baseURL',function($resource,baseURL){
         });
       };
 }])
-
-/*services to get the subtasks data */
-app.service('updateTask',['$resource','baseURL',function($resource,baseURL){
+/*services to get the category data */
+app.service('getCategories',['$resource','baseURL',function($resource,baseURL){
+      this.getFeedback=function(){
+        return $resource(baseURL+"categories",null,{
+          'update':{
+            method:'GET'
+          }
+        });
+      };
+}])
+/*services to update the tasks data */
+app.service('updateTaskService',['$resource','baseURL',function($resource,baseURL){
       this.patchFeedback=function(id){
         return $resource(baseURL+"tasks/"+id,null,{
           'update':{
@@ -30,4 +39,17 @@ app.service('updateTask',['$resource','baseURL',function($resource,baseURL){
           }
         });
       };
+}])
+/*services to update the subtasks data */
+app.service('updateSubTaskService',['$resource','baseURL',function($resource,baseURL){
+      this.patchFeedback=function(id){
+        return $resource(baseURL+"subtasks/"+id,null,{
+          'update':{
+            method:'PATCH'
+          }
+        });
+      };
+}])
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
 }])

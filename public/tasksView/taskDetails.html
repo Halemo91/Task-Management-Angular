@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body" style="overflow: scroll">
-    <div>
+  <div style = " display: flow-root;">
         <div>
           <div class="col-md-4"> <label >Name : </label></div>
           <div class="col-md-8"> <input type="text" class="form-control" ng-model="task.name"/></div>
@@ -19,36 +19,47 @@
       </div>
       <div>
         <div class="col-md-4"> <label >categoryId : </label></div>
-        <div class="col-md-8"> <select data-ng-options="o.name for o in options" data-ng-model="selectedOption"></select>
-</div>
+        <div class="col-md-8"> <select data-ng-options="o.name for o in options" data-ng-model="selectedOption"></select></div>
       </div>
 
+      <div style = "float: right;">
+      <button class="btn btn-primary" type="button" ng-click="updateTask(task)">Update Task</button>
+      </div>
 </div>
-
+<div class="alert alert-success" ng-show="isTaskUpdated">
+   <strong>Success!</strong> Task has been updated.
+ </div>
 <h3 class="modal-title">Sub Task Details</h3>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">subtask Name</th>
-      <th scope="col">check/uncheck</th>
+      <th scope="col">Subtask Name</th>
+      <th scope="col">Done</th>
+      <th scope="col">Optional</th>
+
     </tr>
   </thead>
   <tbody>
     <tr  ng-repeat="sub in subtaskname track by $index">
       <td><input st type="text" class="form-control " ng-model="sub.item"/></td>
       <td><input type="checkbox"  ng-model="sub.done"/></td>
+      <td><input type="checkbox"  ng-model="sub.optional"/></td>
+
     </tr>
 
 
   </tbody>
 </table>
+<div style = "float: right;">
+  <button class="btn btn-primary" type="button" ng-click="updateSubTask(task)">Update sub Task</button>
+</div>
 
-
-
+<div class="alert alert-success" ng-show="isSubTaskUpdated">
+   <strong>Success!</strong> Subtask has been updated.
+ </div>
 </div>
 
 <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok(task)">Update</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
 </div>
