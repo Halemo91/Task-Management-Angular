@@ -2,11 +2,13 @@
 var app = angular.module('taskManagerApp', ['taskServices','ngResource','ui.grid', 'ui.grid.edit', 'ui.bootstrap']);
 
 /*Tasks controller which contains the functions and logic behind viewing the tasks*/
-app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','uiGridConstants','$q', '$injector','$uibModal', function($scope,tasks,getSubTasks,uiGridConstants,$q, $injector,$uibModal) {
+app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTask','uiGridConstants','$q', '$injector','$uibModal', function($scope,tasks,getSubTasks,updateTask,uiGridConstants,$q, $injector,$uibModal) {
     'use strict';
 
   tasks.query(function(data) {
      $scope.tasks = data;
+     $scope.tasksOriginalCopy = angular.copy(data);
+
      $scope.tasks.forEach(function(obj) {
        obj.subTask = [];
          $scope.subTasksService = getSubTasks.getFeedback(obj.id).query(function(response) {
@@ -37,20 +39,29 @@ app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','uiGridConstant
         columnDefs: [
             {
             field: 'name' ,
-            cellTemplate: '<div ui-sref=\"http://localhost:4000/tasks/1\"  > ' +
-            "<div ng-click='grid.appScope.gridRowClick(row)' >     {{row.entity.name}}   </div>"+
+            cellTemplate:
+            '<div > ' +
+            "<div ng-click='grid.appScope.gridRowClick(row)' > {{row.entity.name}} </div>"+
             '</div>'
            },
            {
             field: 'dueDate',
-            name: 'dueDate'
+            name: 'dueDate',
+            cellTemplate:
+            '<div > ' +
+            "<div ng-click='grid.appScope.gridRowClick(row)' > {{row.entity.dueDate|date: 'MM/dd/yyyy'}} </div>"+
+            '</div>'
            },
            {
             field: 'priority' ,
             sort: {
                   priority: 0,
                   direction: uiGridConstants.ASC
-              }
+              },
+              cellTemplate:
+              '<div > ' +
+              "<div ng-click='grid.appScope.gridRowClick(row)' > {{row.entity.priority}} </div>"+
+              '</div>'
            },
            {
             field: 'category'
@@ -61,21 +72,36 @@ app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','uiGridConstant
 $scope.gridRowClick = function(row) {
 console.log(row)
 var childController = function ($scope, $uibModalInstance) {
-  $scope.taskname = row.entity.name;
+  $scope.task = row.entity;
   $scope.subtaskname = row.entity.subTask;
-
-          $scope.ok = function () {
+  $scope.options = [{ name: "a", id: 1 }, { name: "b", id: 2 }];
+  $scope.selectedOption = $scope.options[1];
+          $scope.ok = function (t) {
               $uibModalInstance.close();
+              updateTask.patchFeedback($scope.task.id).update(t);
+           //
+          //  updateTask.getFeedback(row.entity.id).query(function(response) {
+          //    console.log(response)
+          //       //  response.forEach(function(res) {
+          //       //          if(res.taskId == obj.id){
+          //       //            obj.subTask.push(res);
+          //        //
+          //       //          }
+          //       //  });
+          //     });
+
           }
           $scope.cancel = function () {
-              $uibModalInstance.dismiss();
+            $scope.gridOptions.data =  $scope.tasksOriginalCopy;
+            $uibModalInstance.close();
           }
       }
     $uibModal.open({
       scope: $scope,
       backdrop: 'static',
       controller: childController,
-      templateUrl: 'taskDetails.html'
+      templateUrl: 'taskDetails.html',
+    size: 'lg'
       });
 
 }

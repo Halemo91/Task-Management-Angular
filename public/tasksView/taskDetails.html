@@ -1,14 +1,54 @@
 
-        <div class="modal-header">
-            <h3 class="modal-title">Task Details</h3>
-        </div>
-        <div class="modal-body" style="overflow: scroll">
-        {{taskname}}:
-        <div style="display: inline-flex" ng-repeat="sub in subtaskname"  >
-          <span> {{sub.item}}</span>
-         </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
+<div class="modal-header">
+<h3 class="modal-title">Task Details</h3>
+</div>
+
+<div class="modal-body" style="overflow: scroll">
+    <div>
+        <div>
+          <div class="col-md-4"> <label >Name : </label></div>
+          <div class="col-md-8"> <input type="text" class="form-control" ng-model="task.name"/></div>
+       </div>
+       <div>
+         <div class="col-md-4"> <label >priority : </label></div>
+         <div class="col-md-8"> <input type="text" class="form-control" ng-model="task.priority"/></div>
+      </div>
+      <div>
+        <div class="col-md-4"> <label >dueDate : </label></div>
+        <div class="col-md-8"> <input type="date" class="form-control" ng-model="task.dueDate"/></div>
+      </div>
+      <div>
+        <div class="col-md-4"> <label >categoryId : </label></div>
+        <div class="col-md-8"> <select data-ng-options="o.name for o in options" data-ng-model="selectedOption"></select>
+</div>
+      </div>
+
+</div>
+
+<h3 class="modal-title">Sub Task Details</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">subtask Name</th>
+      <th scope="col">check/uncheck</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr  ng-repeat="sub in subtaskname track by $index">
+      <td><input st type="text" class="form-control " ng-model="sub.item"/></td>
+      <td><input type="checkbox"  ng-model="sub.done"/></td>
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+
+</div>
+
+<div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok(task)">Update</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

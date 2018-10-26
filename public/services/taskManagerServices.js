@@ -20,3 +20,14 @@ app.service('getSubTasks',['$resource','baseURL',function($resource,baseURL){
         });
       };
 }])
+
+/*services to get the subtasks data */
+app.service('updateTask',['$resource','baseURL',function($resource,baseURL){
+      this.patchFeedback=function(id){
+        return $resource(baseURL+"tasks/"+id,null,{
+          'update':{
+            method:'PATCH'
+          }
+        });
+      };
+}])
