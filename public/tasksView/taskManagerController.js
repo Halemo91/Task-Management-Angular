@@ -1,5 +1,5 @@
 
-var app = angular.module('taskManagerApp', ['taskServices','ngResource','ui.grid', 'ui.grid.edit', 'ui.bootstrap']);
+var app = angular.module('taskManagerApp', ['taskServices','ngResource','ui.grid', 'ui.grid.edit','ui.grid.grouping', 'ui.bootstrap']);
 
 /*Tasks controller which contains the functions and logic behind viewing the tasks*/
 app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTask','uiGridConstants','$q', '$injector','$uibModal', function($scope,tasks,getSubTasks,updateTask,uiGridConstants,$q, $injector,$uibModal) {
@@ -39,6 +39,8 @@ app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTask','u
         columnDefs: [
             {
             field: 'name' ,
+            enableColumnMenu: false,
+
             cellTemplate:
             '<div > ' +
             "<div ng-click='grid.appScope.gridRowClick(row)' > {{row.entity.name}} </div>"+
@@ -54,6 +56,8 @@ app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTask','u
            },
            {
             field: 'priority' ,
+          //  grouping: {groupPriority: 0},
+
             sort: {
                   priority: 0,
                   direction: uiGridConstants.ASC
@@ -64,7 +68,8 @@ app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTask','u
               '</div>'
            },
            {
-            field: 'category'
+            field: 'category',
+
            }
         ]
       };
