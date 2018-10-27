@@ -1,36 +1,38 @@
 <html>
 <head>
+  <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js'></script>
+  <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-resource.js'></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styling/taskManager.css" type="text/css">
+    <script src="tasksView/taskManagerController.js"></script>
+    <script src="services/taskManagerServices.js"></script>
 </head>
-<body  class="backgroundColor">
+<body  ng-app='taskServices' class="backgroundColor">
 
-  <div class="container" >
+  <div ng-controller="userCtr" class="container" >
     <div class="row">
       <div class="col-md-12">
         <div class="page-header">
-          <h1>Task Manager</h1>
+          <h1>Task Managment</h1>
         </div>
       </div>
-
     </div>
       <div class="col-md-12">
         <h3>Login to the Tasks Page</h3>
-
-          <div class="col-md-4">
+          <div class="col-md-4" style="border: outset;">
             <div class="form-group">
-              <input type="text" class="form-control"  value="john.smith@example.com" required=""/>
+              <label>User Name:</label>
+              <input type="text" class="form-control"  ng-model="email" />
             </div>
             <div class="form-group">
-              <input type="password" class="form-control"  value="123"required=""/>
+            <label>  Password:</label>
+              <input type="password" class="form-control"  ng-model="pass" />
             </div>
             <div class="form-group">
-              <a href="tasksView">  <i type="submit" class="btn btn-success">  Login </i></a>
+              <a href="tasksView">  <i type="submit" class="btn btn-primary">  Login </i></a>
             </div>
           </div>
       </div>
-
-
   </div>
 
 </body>

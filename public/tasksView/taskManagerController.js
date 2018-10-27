@@ -62,7 +62,8 @@ var getCategory= function(obj) {
     }else {
     console.error("Could not get any categories");
    }
- });};
+ });
+};
 /*gridOptions for defining the table content and columns*/
  $scope.gridOptions = {
        enableSorting: true,
@@ -168,7 +169,7 @@ $scope.gridRowClick = function(row) {
       {
          getAllTasks(); // to reset the tasks to  original if user changes tasks without clicking on update
       }
-      $scope.gridApi.treeBase.expandAllRows();
+      $scope.gridApi.treeBase.collapseAllRows();
     }
   }; // end of childController
   if(row.treeLevel != 0){ // if not parent row then be able to click and open the modal

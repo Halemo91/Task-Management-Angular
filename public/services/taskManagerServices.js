@@ -1,6 +1,6 @@
 /* Services to get requests from the api */
 
-var app = angular.module('taskServices', []);
+var app = angular.module('taskServices', ['ngResource']);
 
 /*assging the url to constant value*/
 app.constant("baseURL", "http://localhost:3000/")
@@ -32,7 +32,6 @@ app.service('getSubTasks',['$resource','baseURL',function($resource,baseURL){
 /*services to get one subtask */
 app.service('getOneSubTask',['$resource','baseURL',function($resource,baseURL){
       this.getFeedback=function(id){
-        console.log(id)
         return $resource(baseURL+"subtasks/"+id,null,{
           'update':{
             method:'GET'
@@ -70,6 +69,31 @@ app.service('updateSubTaskService',['$resource','baseURL',function($resource,bas
         });
       };
 }])
+/*services to get one user */
+app.service('getOneUser',['$resource','baseURL',function($resource,baseURL){
+      this.getFeedback=function(id){
+        return $resource(baseURL+"users/",null,{
+          'update':{
+            method:'GET'
+          }
+        });
+      };
+}])
+/*to handel errorRejections*/
 app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
+}])
+/*to get user email*/
+app.controller('userCtr', ['$scope','getOneUser', function($scope,getOneUser) {
+  getOneUser.getFeedback().query(function(response) {
+    if(response && response.length > 0){
+        response.forEach(function(res) {
+            if(res && res.email && res.id == 1){ //hardcoded user id 1 as mentioned in the task
+              $scope.email = res.email;
+              $scope.pass = res.email;
+            }
+        });
+    }else {
+    console.error("Could not get any users");
+   } });
 }])
