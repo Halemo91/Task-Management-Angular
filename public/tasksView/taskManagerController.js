@@ -35,15 +35,18 @@ $scope.categories = [];
      console.error("Error occured: ", err);
  });
 };
-getAllTasks();
+getAllTasks(); //calling getAllTasks initially
 
+/*to get one task*/
 var getoneTask = function(id) {
   getOneTask.getFeedback(id).query();
 
 };
+/*to get one sub task*/
 var get_OneSubTask = function(stID) {
   getOneSubTask.getFeedback(stID).query();
 };
+/*to getCategories*/
 var getCategory= function(obj) {
   getCategories.getFeedback().query(function(response) {
     if(response && response.length > 0){
@@ -161,7 +164,11 @@ $scope.gridRowClick = function(row) {
     //closing the task details model
     $scope.cancel = function () {
       $scope.modal_instance.close();
-      if( !($scope.isTaskUpdated || $scope.isSubTaskUpdated) )  getAllTasks(); // to reset the tasks to  original if user changes tasks without clicking on update
+      if( !($scope.isTaskUpdated || $scope.isSubTaskUpdated) )
+      {
+         getAllTasks(); // to reset the tasks to  original if user changes tasks without clicking on update
+      }
+      $scope.gridApi.treeBase.expandAllRows();
     }
   }; // end of childController
   if(row.treeLevel != 0){ // if not parent row then be able to click and open the modal
