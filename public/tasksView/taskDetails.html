@@ -1,40 +1,57 @@
 
 <div class="modal-header">
-<h3 class="modal-title">Task Details</h3>
+ <h3 class="modal-title">Task Details</h3>
 </div>
 
-<div class="modal-body" style="overflow: scroll">
-  <div style = " display: flow-root;">
+<!-- start of model body -->
+<div class="modal-body" >
+  <div class ="taskBlock">
         <div>
           <div class="col-md-4"> <label >Name : </label></div>
-          <div class="col-md-8"> <input type="text" class="form-control" ng-model="task.name"/></div>
+          <div class="col-md-8 marginInputs"> <input type="text" class="form-control" ng-model="task.name"/></div>
        </div>
+
        <div>
-         <div class="col-md-4"> <label >priority : </label></div>
-         <div class="col-md-8"> <input type="text" class="form-control" ng-model="task.priority"/></div>
-      </div>
-      <div>
-        <div class="col-md-4"> <label >dueDate : </label></div>
-        <div class="col-md-8"> <input type="date" class="form-control" ng-model="task.dueDate"/></div>
-      </div>
-      <div>
-        <div class="col-md-4"> <label >categoryId : </label></div>
-        <div class="col-md-8"> <select data-ng-options="o.name for o in options" data-ng-model="selectedOption"></select></div>
+         <div class="col-md-4"> <label >Description : </label></div>
+         <div class="col-md-8 marginInputs"> <textarea rows="3" cols="25"  class="form-control" ng-model="task.description"></textarea></div>
       </div>
 
-      <div style = "float: right;">
+       <div>
+         <div class="col-md-4"> <label >Priority : </label></div>
+         <div class="col-md-8 marginInputs">
+           <select ng-model="selectedPriority" class="col-md-12">
+               <option  ng-repeat="p in priorities" ng-selected="selectedPriority == p.label" value="{{p.label}}">{{p.label}}</option>
+           </select>
+         </div>
+      </div>
+
+      <div>
+        <div class="col-md-4"> <label >Due date : </label></div>
+        <div class="col-md-8 marginInputs"> <input size="16" type="date"  type="text" ng-model="task.dueDate"  class="form_datetime col-md-12" format: 'mm-dd-yyyy'></div>
+      </div>
+
+      <div>
+          <div class="col-md-4"> <label >Category : </label></div>
+          <div class="col-md-8 marginInputs">
+            <select ng-model="selectedCategory" class="col-md-12">
+                <option  ng-repeat="c in categories" ng-selected="selectedCategory == c.id" value="{{c.id}}">{{c.name}}</option>
+            </select>
+          </div>
+      </div>
+
+      <div class ="floatRight">
       <button class="btn btn-primary" type="button" ng-click="updateTask(task)">Update Task</button>
       </div>
 </div>
 <div class="alert alert-success" ng-show="isTaskUpdated">
    <strong>Success!</strong> Task has been updated.
  </div>
-<h3 class="modal-title">Sub Task Details</h3>
+ <h3 class="modal-title">Sub Task Details</h3>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Subtask Name</th>
+      <th scope="col">Name</th>
       <th scope="col">Done</th>
       <th scope="col">Optional</th>
 
@@ -45,13 +62,10 @@
       <td><input st type="text" class="form-control " ng-model="sub.item"/></td>
       <td><input type="checkbox"  ng-model="sub.done"/></td>
       <td><input type="checkbox"  ng-model="sub.optional"/></td>
-
     </tr>
-
-
   </tbody>
 </table>
-<div style = "float: right;">
+<div class =" floatRight">
   <button class="btn btn-primary" type="button" ng-click="updateSubTask(task)">Update sub Task</button>
 </div>
 
@@ -59,6 +73,7 @@
    <strong>Success!</strong> Subtask has been updated.
  </div>
 </div>
+<!-- end of model body -->
 
 <div class="modal-footer">
         <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>

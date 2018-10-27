@@ -3,7 +3,7 @@
 var app = angular.module('taskServices', []);
 
 /*assging the url to constant value*/
-app.constant("baseURL", "http://localhost:4000/")
+app.constant("baseURL", "http://localhost:3000/")
 
 /*factory to get the tasks data */
 app.factory("tasks", ['$resource','baseURL',function($resource,baseURL) {

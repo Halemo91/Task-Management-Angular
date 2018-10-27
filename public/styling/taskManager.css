@@ -1,5 +1,4 @@
 
-
 .backgroundColor{
   background: #e6e6e6!important;
 }
@@ -9,12 +8,16 @@
 }
 .ui-grid-row {
   cursor: pointer;
-
-  &:hover .ui-grid-cell {
-    background-color: #CCC;
-  }
 }
-
+.taskBlock{
+  display: flow-root;
+}
+.marginInputs{
+      margin-bottom: 10px;
+}
+.floatRight{
+  float: right;
+}
 .tableFontSize{
       font-size: 15px;
 }

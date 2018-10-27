@@ -1,4 +1,4 @@
-Task management frontend web application that consumes data from an existing API. 
+Task management frontend web application that consumes data from an existing API.
 
 App features:
 
@@ -18,6 +18,6 @@ $ npm install -g json-server
 
 and then start the server:
 
-$ json-server --p 4000 db.json
+$ json-server --watch db.json
 
-This should start the HTTP server on http://localhost:4000
+This should start the HTTP server on http://localhost:3000
