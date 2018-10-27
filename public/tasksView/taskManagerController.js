@@ -2,45 +2,64 @@
 var app = angular.module('taskManagerApp', ['taskServices','ngResource','ui.grid','ui.grid.grouping', 'ui.bootstrap']);
 
 /*Tasks controller which contains the functions and logic behind viewing the tasks*/
-app.controller('taskManagerCtr', ['$scope','tasks','getSubTasks','updateTaskService','updateSubTaskService','getCategories','uiGridConstants','$uibModal', function($scope,tasks,getSubTasks,updateTaskService,updateSubTaskService,getCategories,uiGridConstants,$uibModal) {
+app.controller('taskManagerCtr', ['$scope','tasks','getOneTask','getSubTasks','getOneSubTask','updateTaskService','updateSubTaskService','getCategories','uiGridConstants','$uibModal', function($scope,tasks,getOneTask,getSubTasks,getOneSubTask,updateTaskService,updateSubTaskService,getCategories,uiGridConstants,$uibModal) {
 'use strict';
 $scope.isTaskUpdated = false;
 $scope.isSubTaskUpdated = false;
-
+$scope.tasks = [];
+$scope.categories = [];
  /*Getting the tasks from services  */
- var init = function() {
+ var getAllTasks = function() {
   tasks.query(function(data) {
+    if(data && data.length > 0){
      $scope.tasks = data;
      $scope.tasks.forEach(function(obj) {
        obj.subTask = [];
        obj.category = "";
           getSubTasks.getFeedback(obj.id).query(function(response) {
-            response.forEach(function(res) {
-                    if(res.taskId == obj.id){
-                      obj.subTask.push(res);
-
-                    }
-            });
+            if(response && response.length > 0){
+                response.forEach(function(res) {
+                        if(res.taskId == obj.id){
+                          obj.subTask.push(res);
+                        }
+                });
+           }else {
+             console.error("Could not get any subtasks");
+           }
          });
-         getCategories.getFeedback().query(function(response) {
-           response.forEach(function(res) {
-                   if(obj.categoryId && obj.categoryId == res.id){
-                     obj.category = res.name;
-                   }
-                   if(!obj.categoryId){
-                     obj.category ="No category";
-                   }
-           });
-           $scope.categories = response;
-        });
+         getCategory(obj);
       });
      $scope.gridOptions.data = $scope.tasks; // assging tasks to the grid table
-
+  }
  }, function(err) {
      console.error("Error occured: ", err);
  });
 };
-init();
+getAllTasks();
+
+var getoneTask = function(id) {
+  getOneTask.getFeedback(id).query();
+
+};
+var get_OneSubTask = function(stID) {
+  getOneSubTask.getFeedback(stID).query();
+};
+var getCategory= function(obj) {
+  getCategories.getFeedback().query(function(response) {
+    if(response && response.length > 0){
+        response.forEach(function(res) {
+            if(obj && obj.categoryId && obj.categoryId == res.id){
+              obj.category = res.name;
+            }
+            if(!obj.categoryId){
+              obj.category ="No category";
+            }
+        });
+       $scope.categories = response;
+    }else {
+    console.error("Could not get any categories");
+   }
+ });};
 /*gridOptions for defining the table content and columns*/
  $scope.gridOptions = {
        enableSorting: true,
@@ -113,31 +132,36 @@ $scope.gridRowClick = function(row) {
           $scope.selectedCategory = ($scope.categories[i].id).toString();
         }
       }
+      $scope.categories.unshift("");
       $scope.priorities = [ {label : "high"}, {label : "medium"}, {label : "low"}];
       $scope.selectedPriority = $scope.task.priority;
 
     //update the task by calling the updateTaskService
     $scope.updateTask = function (oneTask) {
         oneTask.categoryId = parseInt($scope.selectedCategory);
+        getCategory($scope.task);
         oneTask.priority = $scope.selectedPriority;
         updateTaskService.patchFeedback($scope.task.id).update(oneTask);
         $scope.isTaskUpdated = true;
-        init();
+        getoneTask($scope.task.id);
+        $scope.gridApi.treeBase.expandAllRows();
+
     };
     //update the subtask by calling the updateSubTask
     $scope.updateSubTask = function (oneTask) {
         if(oneTask.subTask && oneTask.subTask.length > 0){
               oneTask.subTask.forEach(function(sub) {
                 updateSubTaskService.patchFeedback(sub.id).update(sub);
+                get_OneSubTask(sub.id);
+                $scope.gridApi.treeBase.expandAllRows();
               });
         }
         $scope.isSubTaskUpdated = true;
-        init();
     };
     //closing the task details model
     $scope.cancel = function () {
       $scope.modal_instance.close();
-      if( !($scope.isTaskUpdated || $scope.isTaskUpdated) )  init();
+      if( !($scope.isTaskUpdated || $scope.isSubTaskUpdated) )  getAllTasks(); // to reset the tasks to  original if user changes tasks without clicking on update
     }
   }; // end of childController
   if(row.treeLevel != 0){ // if not parent row then be able to click and open the modal
@@ -150,6 +174,7 @@ $scope.gridRowClick = function(row) {
       size: 'lg'
       });
     }
+
 };// end of gridRowClick
 
 }]) // end of taskManagerCtr

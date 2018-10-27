@@ -12,7 +12,7 @@ App features:
 
 - edit subtask's name and check/uncheck.
 
-You simple install the json-server library via the following npm command:
+You simply install the json-server library via the following npm command:
 
 $ npm install -g json-server
 

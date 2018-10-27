@@ -9,11 +9,31 @@ app.constant("baseURL", "http://localhost:3000/")
 app.factory("tasks", ['$resource','baseURL',function($resource,baseURL) {
     return $resource(baseURL+"tasks/");
 }]);
-
+/*services to get one task */
+app.service('getOneTask',['$resource','baseURL',function($resource,baseURL){
+      this.getFeedback=function(id){
+        return $resource(baseURL+"tasks/"+id,null,{
+          'update':{
+            method:'GET'
+          }
+        });
+      };
+}])
 /*services to get the subtasks data */
 app.service('getSubTasks',['$resource','baseURL',function($resource,baseURL){
       this.getFeedback=function(id){
         return $resource(baseURL+"tasks/"+id+"/subtasks",null,{
+          'update':{
+            method:'GET'
+          }
+        });
+      };
+}])
+/*services to get one subtask */
+app.service('getOneSubTask',['$resource','baseURL',function($resource,baseURL){
+      this.getFeedback=function(id){
+        console.log(id)
+        return $resource(baseURL+"subtasks/"+id,null,{
           'update':{
             method:'GET'
           }
