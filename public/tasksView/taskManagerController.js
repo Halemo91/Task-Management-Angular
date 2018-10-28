@@ -96,8 +96,27 @@ var getCategory= function(obj) {
             enableColumnMenu: false,
             sort: {
                   priority: 1,
-                  direction: uiGridConstants.ASC
-              }
+                  direction: uiGridConstants.DESC
+              },
+              sortingAlgorithm: function(a, b, rowA, rowB, direction) {
+                var nulls = $scope.gridApi.core.sortHandleNulls(a, b);
+                if (nulls !== null) {
+                  return -1 * nulls;
+                } else {
+                  if (a === b) {
+                    return 0;
+                  }
+                  if (a == "medium" && b=="low") {
+                    return 1;
+                  }
+                  if (a == "low" && b=="high") {
+                    return -1;
+                  }
+                  if (a == "medium" && b=="high") {
+                    return -1;
+                  }
+                  }
+                }
            },
            {
             field: 'category',
