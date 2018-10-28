@@ -30,6 +30,7 @@ $scope.categories = [];
          getCategory(obj);
       });
      $scope.gridOptions.data = $scope.tasks; // assging tasks to the grid table
+
   }
  }, function(err) {
      console.error("Error occured: ", err);
@@ -145,6 +146,8 @@ $scope.gridRowClick = function(row) {
 
   var childController = function ($scope, $uibModalInstance) {
       $scope.task = row.entity;//single row task
+      $scope.taskOriginalCopy = angular.copy(row.entity);
+
       $scope.subtaskname = row.entity.subTask;
       if($scope.task.dueDate){
         $scope.task.dueDate = new Date($scope.task.dueDate);
@@ -186,7 +189,7 @@ $scope.gridRowClick = function(row) {
       $scope.modal_instance.close();
       if( !($scope.isTaskUpdated || $scope.isSubTaskUpdated) )
       {
-         getAllTasks(); // to reset the tasks to  original if user changes tasks without clicking on update
+         row.entity = $scope.taskOriginalCopy;// to reset the tasks to  original if user changes tasks without clicking on update
       }
       $scope.gridApi.treeBase.collapseAllRows();
     }

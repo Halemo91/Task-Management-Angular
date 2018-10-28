@@ -1,4 +1,4 @@
-Task management frontend web application that consumes data from an existing API.
+Task management Frontend web application that consumes data from an existing API.
 
 App features:
 
